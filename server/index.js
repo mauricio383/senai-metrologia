@@ -58,8 +58,24 @@ app.post('/medidas', (req, res, next) => {
             throw new Error(erro);
         }
 
-        // Caso passe pelos testes.
-        res.status(201).send({ status: "Sucesso", menssagem: "Dados adicionandos!" });
+        // Comandos MySQL.
+        const queryInfos = {
+            primeiraParte: "INSERT INTO dados_metrologia (id, nome_sensor, temperatura, umidade, data)",
+            segundaParte: `VALUES (NULL, "${nome_sensor}", "${Number(temperatura)}", "${Number(umidade)}", "${data}")`
+        };
+
+        // Faz a consulta o banco de dados.
+        dbConn.query(`${queryInfos["primeiraParte"]} ${queryInfos["segundaParte"]}`, function(error, results, fields) {
+            // Testa se deu algum erro, caso tenha lança uma execessão.
+            if (error) {
+                // Caso não sejam numéricos, lança um erro.
+                const erro = JSON.stringify({ cod: 502, menssagem: "Erro ao inserir no banco de dados!" });
+                throw new Error(erro);
+            }
+            
+            // Caso passe pelos testes.
+            res.status(201).send({ status: "Sucesso", menssagem: "Dados adicionandos!" });
+        });
     } catch ({ message }) {
         const { cod, menssagem } = JSON.parse(message);
         res.status(cod).send({ status: "Falha", menssagem });
