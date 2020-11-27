@@ -91,11 +91,11 @@ app.get('/medidas', (req, res, next) => {
         // Comandos MySQL.
         const queryInfos = {
             WHERE: (_nome_sensor) ? `WHERE nome_sensor = "${_nome_sensor}"` : "",
-            LIMIT: (_limite) ? _limite : 300 
+            LIMIT: (_limite) ? Number(_limite) : 300 
         };
     
         // Faz a consulta o banco de dados.
-        dbConn.query(`SELECT * FROM ${queryInfos["WHERE"]} ORDER BY id DESC LIMIT ${queryInfos["LIMIT"]}`, (erroDB, resDB) => {
+        dbConn.query(`SELECT * FROM dados_metrologia ${queryInfos["WHERE"]} ORDER BY id DESC LIMIT ${queryInfos["LIMIT"]}`, (erroDB, resDB) => {
             // Testa se deu algum erro, caso tenha lança uma execessão.
             if (erroDB) {
                 // Caso ocorra algum erro na query.
