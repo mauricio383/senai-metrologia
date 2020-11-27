@@ -25,7 +25,31 @@ app.use(cookieParser());
 
 // Criando rota para salvar os dados no DB.
 app.post('/medidas', (req, res, next) => {
+    // Bloco para testar erros.
+    try {
+        // Puxo os valores do body da requisição para usalos soltos.
+        const { temperatura, umidade, data, nome_sensor } = req.body;
 
+        // Testando se os dados não foram definidos.
+        if (!temperatura || !umidade || !data || !nome_sensor) {
+            // Caso estejam vazios, lança um erro.
+            const erro = JSON.stringify({ cod: 400, menssagem: "Dados incompletos!" });
+            throw new Error(erro);
+        }
+
+        // Testando se os valores de temperatura e umidade são numéricos.
+        if (isNaN(temperatura) || isNaN(temperatura)) {
+            // Caso não sejam numéricos, lança um erro.
+            const erro = JSON.stringify({ cod: 406, menssagem: "Dados inválidos!" });
+            throw new Error(erro);
+        }
+
+        // Caso passe pelos testes.
+        res.status(201).send({ status: "Sucesso", menssagem: "Dados adicionandos!" });
+    } catch ({ message }) {
+        const { cod, menssagem } = JSON.parse(message);
+        res.status(cod).send({ status: "Falha", menssagem });
+    }
 });
 
 // Criando rota para buscar os dados no DB.
