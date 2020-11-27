@@ -23,6 +23,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// Adiciona o pacote para fazer as consultas MySQL.
+const mysql = require('mysql');
+
+// Configurando a conexão com o banco MySQL.
+const dbConn = mysql.createConnection({
+    host: 'localhost',
+    user: 'SENAI',
+    password: 'senai115metrologia',
+    database: 'metrologia'
+});
+
+// Conectando a aplicação ao banco.
+dbConn.connect();
+
 // Criando rota para salvar os dados no DB.
 app.post('/medidas', (req, res, next) => {
     // Bloco para testar erros.
