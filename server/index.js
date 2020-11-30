@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Adiciona o pacote para fazer as consultas MySQL.
-const mysql = require('mysql');
+const mysql = require('mysql8');
 
 // Configurando a conexão com o banco MySQL.
 const dbConn = mysql.createConnection({
