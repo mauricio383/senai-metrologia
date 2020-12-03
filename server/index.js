@@ -111,7 +111,21 @@ app.get('/medidas', (req, res, next) => {
             }
 
             // Caso tenha trago retorna os dados.
-            res.status(200).send(resDB);
+            const json = resDB.map((dado) => {
+                const { id, nome_sensor, temperatura, umidade, data } = dado;
+                const novaData = new Date(data);
+
+                return {
+                    id,
+                    nome_sensor,
+                    temperatura,
+                    umidade,
+                    data: `${novaData.getDate()}/${novaData.getMonth() + 1}`,
+                    hora: `${novaData.getUTCHours()}h${novaData.getMinutes()}m`
+                }
+            });
+
+            res.status(200).send(json);
         });
     } catch ({ message }) {
         // Resposta enviada caso ocorra algum erro.
