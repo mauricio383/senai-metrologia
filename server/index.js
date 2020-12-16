@@ -136,5 +136,5 @@ app.get('/medidas', (req, res, next) => {
 
 // Inicia o servidor com as rotas na porta 3001.
 var server = http.createServer(app); 
-server.listen(3001);
-console.log("Servidor escutando na porta 3001...");
+server.listen(8000, '127.0.0.1');
+console.log("Servidor escutando na porta 8000...");
