@@ -42,21 +42,31 @@ app.post('/medidas', (req, res, next) => {
     // Bloco para testar erros.
     try {
         // Puxo os valores do body da requisição para usalos soltos.
-        const { temperatura, umidade, data, nome_sensor } = req.body;
+        const { temperatura, umidade, nome_sensor } = req.body;
 
         // Testando se os dados não foram definidos.
-        if (!temperatura || !umidade || !data || !nome_sensor) {
+        if (!temperatura || !umidade || !nome_sensor) {
             // Caso estejam vazios, lança um erro.
             const erro = JSON.stringify({ cod: 400, mensagem: "Dados incompletos!" });
             throw new Error(erro);
         }
 
         // Testando se os valores de temperatura e umidade são numéricos.
-        if (isNaN(temperatura) || isNaN(temperatura)) {
+        if (isNaN(temperatura) || isNaN(umidade)) {
             // Caso não sejam numéricos, lança um erro.
             const erro = JSON.stringify({ cod: 406, mensagem: "Dados inválidos!" });
             throw new Error(erro);
         }
+
+        let data = new Date();
+
+        if (data.getDay() === 0 || (data.getHours() < 8 || (data.getHours() >= 23 && data.getMinutes() !== 0 ) ) ) {
+            // Caso não sejam numéricos, lança um erro.
+            const erro = JSON.stringify({ cod: 503, mensagem: "Horário indisponível!" });
+            throw new Error(erro);
+        }
+
+        data = data.toISOString().slice(0, 19).replace("T", " ");
 
         // Comandos MySQL.
         const queryInfos = {
@@ -121,7 +131,7 @@ app.get('/medidas', (req, res, next) => {
                     temperatura,
                     umidade,
                     data: `${novaData.getDate()}/${novaData.getMonth() + 1}`,
-                    hora: `${novaData.getUTCHours()}h${novaData.getMinutes()}m`
+                    hora: `${novaData.getHours() - 3}h${novaData.getMinutes()}m`
                 }
             });
 
