@@ -17,10 +17,10 @@
 
 ### 4. Na pasta do projeto, instale as dependências necessárias com o seguinte comando:
 
-#### - **npm install**
+- **npm install**
 
 ### 5. Inicie a API com o comando:
 
-#### - **node ./server/index.js**
+- **node ./server/index.js**
 
 
