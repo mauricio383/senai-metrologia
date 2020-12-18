@@ -61,8 +61,12 @@ app.post('/medidas', (req, res, next) => {
         let data = new Date();
 
         if (data.getDay() === 0 || (data.getHours() < 8 || (data.getHours() >= 23 && data.getMinutes() !== 0 ) ) ) {
-            // Caso não sejam numéricos, lança um erro.
             const erro = JSON.stringify({ cod: 503, mensagem: "Horário indisponível!" });
+            throw new Error(erro);
+        }
+
+        if (data.getMinutes() !== 0 && data.getMinutes() !== 15 && data.getMinutes() !== 30 && data.getMinutes() === 45 ) {
+            const erro = JSON.stringify({ cod: 503, mensagem: "O intervalo de tempo não é permitido!" });
             throw new Error(erro);
         }
 
@@ -145,6 +149,6 @@ app.get('/medidas', (req, res, next) => {
 });
 
 // Inicia o servidor com as rotas na porta 3001.
-var server = http.createServer(app); 
+const server = http.createServer(app); 
 server.listen(8000, '127.0.0.1');
 console.log("Servidor escutando na porta 8000...");
