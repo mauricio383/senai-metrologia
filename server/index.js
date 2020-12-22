@@ -65,7 +65,7 @@ app.post('/medidas', (req, res, next) => {
             throw new Error(erro);
         }
 
-        if (data.getMinutes() !== 0 && data.getMinutes() !== 15 && data.getMinutes() !== 30 && data.getMinutes() === 45 ) {
+        if (data.getMinutes() % 15 !== 0 ) {
             const erro = JSON.stringify({ cod: 503, mensagem: "O intervalo de tempo não é permitido!" });
             throw new Error(erro);
         }
