@@ -59,9 +59,15 @@ app.post('/medidas', (req, res, next) => {
         }
 
         let data = new Date();
+        const GMT = data.getTimezoneOffset() / 60;
 
-        if (data.getDay() === 0 || (data.getHours() < 8 || (data.getHours() >= 23 && data.getMinutes() !== 0 ) ) ) {
-            const erro = JSON.stringify({ cod: 503, mensagem: "Horário indisponível!" });
+        if (data.getDay() === 0 ) {
+            const erro = JSON.stringify({ cod: 503, mensagem: "Serviço não opera neste dia!" });
+            throw new Error(erro);
+        }
+
+        if ( (data.getHours() - GMT) < 8 || ((data.getHours() - GMT) >= 23 && data.getMinutes() !== 0 ) ) {
+            const erro = JSON.stringify({ cod: 503, mensagem: "Serviço não opera neste horário!" });
             throw new Error(erro);
         }
 
@@ -128,6 +134,7 @@ app.get('/medidas', (req, res, next) => {
             const json = resDB.map((dado) => {
                 const { id, nome_sensor, temperatura, umidade, data } = dado;
                 const novaData = new Date(data);
+                const GMT = novaData.getTimezoneOffset() / 60;
 
                 return {
                     id,
@@ -135,7 +142,7 @@ app.get('/medidas', (req, res, next) => {
                     temperatura,
                     umidade,
                     data: `${novaData.getDate()}/${novaData.getMonth() + 1}`,
-                    hora: `${novaData.getHours() - 3}h${novaData.getMinutes()}m`
+                    hora: `${novaData.getHours() - GMT}h${novaData.getMinutes()}m`
                 }
             });
 
