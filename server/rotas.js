@@ -3,6 +3,7 @@ const medidasGet = require('../api/medidas_get.js');
 const emailsPost = require('../api/emails_post.js');
 const emailsGet = require('../api/emails_get.js');
 const emailsPut = require('../api/emails_put.js');
+const emailsDelete = require('../api/emails_delete.js');
 
 module.exports = (app) => {
     app.post('/medidas', medidasPost);
@@ -11,4 +12,5 @@ module.exports = (app) => {
     app.post('/emails', emailsPost);
     app.get('/emails', emailsGet);
     app.put('/emails/:id', emailsPut);
+    app.delete('/emails/:id', emailsDelete);
 };
