@@ -42,9 +42,16 @@ module.exports = (req, res) => {
         data = data.toISOString().slice(0, 19).replace("T", " ");
 
         // if (Number(temperatura) > 28 || Number(temperatura) < 14) {
-        //     email('', '')
-        //     .then(response => console.log("RESPOSTA:", response))
-        //     .catch(error => console.log("ERRO", error));
+        //     dbConn.query("SELECT * FROM emails", (erroDB, resDB) => {
+        //         if (erroDB) {
+        //             const erro = JSON.stringify({ cod: 502, mensagem: "Erro ao inserir no banco de dados!" });
+        //             throw new Error(erro);
+        //         }
+
+        //         resDB.forEach((dado) => {
+        //             email(dado.email, dado.nome, nome_sensor, temperatura);
+        //         });
+        //     });
         // }
 
         // Comandos MySQL.

@@ -1,6 +1,6 @@
 const mailer = require('nodemailer');
 
-module.exports = (email, nome) => {
+module.exports = (email, nome, sensor, temp) => {
     const smtpTransport = mailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
@@ -15,8 +15,10 @@ module.exports = (email, nome) => {
         from: 'SENAI <>',
         to: email,
         subject: 'Alerta temperatura',
-        text: `Olá ${nome}, a temperatura subiu`,
-        html: '<a href="www.google.com">Link</a>'
+        html: (`<p>
+                Olá ${nome}, a temperatura do sensor ${sensor} atingiu a temperatura ${temp}.<br><br>
+                Para acessar o site <a href="www.google.com">Clique aqui</a>.
+            </p>`)
     }
     
     return new Promise((resolve, reject) => {
