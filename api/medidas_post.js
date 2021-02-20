@@ -1,4 +1,5 @@
 const dbConn = require('../server/db.js');
+const email = require("../server/email.js");
 
 module.exports = (req, res) => {
     // Bloco para testar erros.
@@ -39,6 +40,12 @@ module.exports = (req, res) => {
         }
 
         data = data.toISOString().slice(0, 19).replace("T", " ");
+
+        // if (Number(temperatura) > 28 || Number(temperatura) < 14) {
+        //     email('', '')
+        //     .then(response => console.log("RESPOSTA:", response))
+        //     .catch(error => console.log("ERRO", error));
+        // }
 
         // Comandos MySQL.
         const queryInfos = {
