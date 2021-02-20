@@ -12,7 +12,7 @@ module.exports = (req, res) => {
 
         dbConn.query(`UPDATE emails SET nome = "${nome}", email = "${email}" WHERE id = ${id}`, (erroDB) => {
             if (erroDB) {
-                const erro = JSON.stringify({ cod: 502, mensagem: "Erro ao inserir no banco de dados!" });
+                const erro = JSON.stringify({ cod: 502, mensagem: "Erro ao atualizar no banco de dados!" });
                 throw new Error(erro);
             }
 

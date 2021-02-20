@@ -11,7 +11,7 @@ module.exports = (req, res) => {
 
         dbConn.query(`DELETE FROM emails WHERE id = ${id}`, (erroDB) => {
             if (erroDB) {
-                const erro = JSON.stringify({ cod: 502, mensagem: "Erro ao inserir no banco de dados!" });
+                const erro = JSON.stringify({ cod: 502, mensagem: "Erro ao deletar no banco de dados!" });
                 throw new Error(erro);
             }
 

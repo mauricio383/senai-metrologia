@@ -4,7 +4,7 @@ module.exports = (req, res) => {
     try {
         dbConn.query(`SELECT * FROM emails`, (erroDB, resDB) => {
             if (erroDB) {
-                const erro = JSON.stringify({ cod: 502, mensagem: "Erro ao inserir no banco de dados!" });
+                const erro = JSON.stringify({ cod: 502, mensagem: "Erro ao buscar no banco de dados!" });
                 throw new Error(erro);
             }
 
