@@ -30,7 +30,6 @@ module.exports = (req, res) => {
             const json = resDB.map((dado) => {
                 const { id, nome_sensor, temperatura, umidade, data } = dado;
                 const novaData = new Date(data);
-                const GMT = novaData.getTimezoneOffset() / 60;
 
                 return {
                     id,
@@ -38,7 +37,7 @@ module.exports = (req, res) => {
                     temperatura,
                     umidade,
                     data: `${novaData.getDate()}/${novaData.getMonth() + 1}`,
-                    hora: `${novaData.getHours() - GMT}h${novaData.getMinutes()}m`
+                    hora: `${novaData.getHours() - 3}h${novaData.getMinutes()}m`
                 }
             });
 

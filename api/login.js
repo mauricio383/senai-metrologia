@@ -7,7 +7,7 @@ module.exports = (req, res) => {
         const id = 1;
 
         const token = jwt.sign({ id }, process.env.SECRET, {
-            expiresIn: (60 * 60 * 2)
+            expiresIn: (60 * 60 * 1)
         });
 
         res.json({ auth: true, token: token });
