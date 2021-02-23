@@ -8,10 +8,11 @@ const emailsPut = require('../api/emails_put.js');
 const emailsDelete = require('../api/emails_delete.js');
 // Login
 const login = require('../api/login.js');
+const validarToken = require('../api/validarToken.js');
 const { verifyJWT } = require('./jwt.js');
 
 module.exports = (app) => {
-    // Medidas
+    // Medidas.
     app.post('/medidas', medidasPost);
     app.get('/medidas', medidasGet);
     // E-mails.
@@ -19,6 +20,8 @@ module.exports = (app) => {
     app.get('/emails', verifyJWT, emailsGet);
     app.put('/emails/:id', verifyJWT, emailsPut);
     app.delete('/emails/:id', verifyJWT, emailsDelete);
-    // Login
+    // Login.
     app.post('/login', login);
+    // Validar Token.
+    app.post('/validarToken', verifyJWT, validarToken);
 };
