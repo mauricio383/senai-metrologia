@@ -1,7 +1,7 @@
 const mailer = require('nodemailer');
 require('dotenv/config');
 
-module.exports = (email, nome, sensor, temp) => {
+module.exports = (email, conteudo) => {
     const smtpTransport = mailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
@@ -15,11 +15,8 @@ module.exports = (email, nome, sensor, temp) => {
     const mail = {
         from: 'SENAI <>',
         to: email,
-        subject: 'Alerta temperatura',
-        html: (`<p>
-                Olá ${nome}, a temperatura do sensor ${sensor} atingiu a temperatura ${temp}.<br><br>
-                Para acessar o site <a href="www.google.com">Clique aqui</a>.
-            </p>`)
+        subject: conteudo.titulo,
+        html: (`<p>${conteudo.msg}</p>`)
     }
     
     return new Promise((resolve, reject) => {

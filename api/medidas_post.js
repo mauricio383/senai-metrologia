@@ -22,37 +22,42 @@ module.exports = (req, res) => {
         }
 
         let data = new Date();
-        const GMT = data.getTimezoneOffset() / 60;
 
-        if (data.getDay() === 0 ) {
-            const erro = JSON.stringify({ cod: 503, mensagem: "Serviço não opera neste dia!" });
-            throw new Error(erro);
-        }
+        // if (data.getDay() === 0 ) {
+        //     const erro = JSON.stringify({ cod: 503, mensagem: "Serviço não opera neste dia!" });
+        //     throw new Error(erro);
+        // }
 
-        if ( (data.getHours() - GMT) < 8 || ((data.getHours() - GMT) >= 23 && data.getMinutes() !== 0 ) ) {
-            const erro = JSON.stringify({ cod: 503, mensagem: "Serviço não opera neste horário!" });
-            throw new Error(erro);
-        }
+        // if ( (data.getHours() - 3) < 8 || ((data.getHours() - 3) >= 23 && data.getMinutes() !== 0 ) ) {
+        //     const erro = JSON.stringify({ cod: 503, mensagem: "Serviço não opera neste horário!" });
+        //     throw new Error(erro);
+        // }
 
-        if (data.getMinutes() % 15 !== 0 ) {
-            const erro = JSON.stringify({ cod: 503, mensagem: "O intervalo de tempo não é permitido!" });
-            throw new Error(erro);
-        }
+        // if (data.getMinutes() % 15 !== 0 ) {
+        //     const erro = JSON.stringify({ cod: 503, mensagem: "O intervalo de tempo não é permitido!" });
+        //     throw new Error(erro);
+        // }
 
         data = data.toISOString().slice(0, 19).replace("T", " ");
 
-        // if (Number(temperatura) > 28 || Number(temperatura) < 14) {
-        //     dbConn.query("SELECT * FROM emails", (erroDB, resDB) => {
-        //         if (erroDB) {
-        //             const erro = JSON.stringify({ cod: 502, mensagem: "Erro ao inserir no banco de dados!" });
-        //             throw new Error(erro);
-        //         }
+        if (Number(temperatura) > 28 || Number(temperatura) < 14) {
+            dbConn.query("SELECT * FROM emails", (erroDB, resDB) => {
+                if (erroDB) {
+                    const erro = JSON.stringify({ cod: 502, mensagem: "Erro ao inserir no banco de dados!" });
+                    throw new Error(erro);
+                }
 
-        //         resDB.forEach((dado) => {
-        //             email(dado.email, dado.nome, nome_sensor, temperatura);
-        //         });
-        //     });
-        // }
+                resDB.forEach((dado) => {
+                    const conteudo = {
+                        titulo: 'Alerta Temperatura',
+                        msg: `Olá ${dado.nome}, a temperatura do sensor ${nome_sensor} atingiu a temperatura ${temperatura}.<br><br>
+                        Para acessar o site <a href="www.google.com">Clique aqui</a>.`
+                    };
+
+                    email(dado.email,  conteudo);
+                });
+            });
+        }
 
         // Comandos MySQL.
         const queryInfos = {

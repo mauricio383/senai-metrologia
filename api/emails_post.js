@@ -1,4 +1,5 @@
 const dbConn = require('../server/db.js');
+const emailFunction = require("../server/email.js");
 
 module.exports = (req, res) => {
     try {
@@ -21,6 +22,16 @@ module.exports = (req, res) => {
             }
 
             res.status(201).send({ status: "Sucesso", mensagem: "Dados adicionandos!" });
+
+            const conteudo = {
+                titulo: "Confirmação de cadastro.",
+                msg: `
+                    Olá ${nome}, estamos enviando este e-mail para confirmar o cadastro do seu e-mail.<br/>
+                    Por favor, nos marque como "Não spam".
+                `
+            };
+
+            emailFunction(email,  conteudo);
         });
     } catch ({ message }) {
         const { cod, mensagem } = JSON.parse(message);
