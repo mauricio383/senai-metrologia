@@ -1,4 +1,5 @@
 const mailer = require('nodemailer');
+require('dotenv/config');
 
 module.exports = (email, nome, sensor, temp) => {
     const smtpTransport = mailer.createTransport({
@@ -6,8 +7,8 @@ module.exports = (email, nome, sensor, temp) => {
         port: 587,
         secure: false,
         auth: {
-            user: '',
-            pass: ''
+            user: process.env.E_USER,
+            pass: process.env.E_PASS
         }
     })
     
